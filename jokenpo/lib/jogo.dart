@@ -12,27 +12,38 @@ class Jogo extends StatefulWidget {
 class _JogoState extends State<Jogo> {
 
   var _imageApp = const AssetImage("images/padrao.png");
+  var _imagePedra = "images/pedra.png";
+  var _imagePapel = "images/papel.png";
+  var _imageTesoura = "images/tesoura.png";
   var _mensagem = "Escolha sua jogada";
-  var _listaJogadas = ["pedra", "papel", "tesoura"];
+  final _listaJogadas = ["pedra", "papel", "tesoura"];
   var _isImpossibleMode = false;
 
   void _opcaoSelecionada(String escolha) {//ou String
-    var numeroAleatorio = Random().nextInt(3);
-    var img = "images/${_listaJogadas[numeroAleatorio]}.png";
+    _imagePedra = escolha == "pedra" ? "images/pedraSelected.png" : "images/pedra.png";
+    _imagePapel = escolha == "papel" ? "images/papelSelected.png" : "images/papel.png";
+    _imageTesoura = escolha == "tesoura" ? "images/tesouraSelected.png" : "images/tesoura.png";
+    
+    if (!_isImpossibleMode) {
+      var numeroAleatorio = Random().nextInt(3);
+      var img = "images/${_listaJogadas[numeroAleatorio]}.png";
 
-    setState(() {
-      _imageApp = AssetImage(img);
-    });
+      setState(() {
+        _imageApp = AssetImage(img);
+      });
 
-    if (_listaJogadas[numeroAleatorio] == escolha) {
-      _mensagem = "Empatamos ;-)";
-    } else if ((escolha == "pedra" && numeroAleatorio == _listaJogadas.indexOf("tesoura")) ||
-               (escolha == "papel" && numeroAleatorio == _listaJogadas.indexOf("pedra")) ||
-               (escolha == "tesoura" && numeroAleatorio == _listaJogadas.indexOf("papel"))
-    ) {
-      _mensagem = "Parabéns! Você ganhou! Melhor de três?";
+      if (_listaJogadas[numeroAleatorio] == escolha) {
+        _mensagem = "Empatamos ;-)";
+      } else if ((escolha == "pedra" && numeroAleatorio == _listaJogadas.indexOf("tesoura")) ||
+                (escolha == "papel" && numeroAleatorio == _listaJogadas.indexOf("pedra")) ||
+                (escolha == "tesoura" && numeroAleatorio == _listaJogadas.indexOf("papel"))
+      ) {
+        _mensagem = "Parabéns! Você ganhou! Melhor de três?";
+      } else {
+        _mensagem = "Hahaha! Você perdeu! Tudo normal por aqui!";
+      }
     } else {
-      _mensagem = "Hahaha! Você perdeu! Tudo normal por aqui!";
+      _opcaoImpossible(escolha);
     }
   }
 
@@ -51,18 +62,18 @@ class _JogoState extends State<Jogo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
+        title: const Center(
           child: Text("Joken Po"),
         )
       ),
       body: Center(
         child: Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.start, //default
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Padding(
+              const Padding(
                 padding: EdgeInsets.only(
                   top: 32,
                   bottom: 16
@@ -73,7 +84,7 @@ class _JogoState extends State<Jogo> {
                 image: _imageApp
               ),
               Padding(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   top: 32,
                   bottom: 16
                 ),
@@ -83,30 +94,30 @@ class _JogoState extends State<Jogo> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                    onTap: () => {_isImpossibleMode ? _opcaoImpossible("pedra") : _opcaoSelecionada('pedra')},
+                    onTap: () => _opcaoSelecionada('pedra'),
                     child: Image.asset(
-                      "images/pedra.png",
+                      _imagePedra,
                       height: 100,
                     ),
                   ),
                   GestureDetector(
-                    onTap: () => {_isImpossibleMode ? _opcaoImpossible("papel") : _opcaoSelecionada('papel')},
+                    onTap: () => _opcaoSelecionada('papel'),
                     child: Image.asset(
-                      "images/papel.png",
+                      _imagePapel,
                       height: 100,
                     ),
                   ),
                   GestureDetector(
-                    onTap: () => {_isImpossibleMode ? _opcaoImpossible("tesoura") : _opcaoSelecionada('tesoura')},
+                    onTap: () => _opcaoSelecionada('tesoura'),
                     child: Image.asset(
-                      "images/tesoura.png",
+                      _imageTesoura,
                       height: 100,
                     ),
                   ),
                 ],
               ),
               Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -116,10 +127,9 @@ class _JogoState extends State<Jogo> {
                         setState(() => {
                           _isImpossibleMode = checked!
                         }),
-                        print(_isImpossibleMode)
                       },
                     ),
-                    Text("Modo impossível!")
+                    const Text("Modo impossível!")
                   ],
                 ),
               )
