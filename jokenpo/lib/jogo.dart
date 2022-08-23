@@ -14,6 +14,7 @@ class _JogoState extends State<Jogo> {
   var _imageApp = const AssetImage("images/padrao.png");
   var _mensagem = "Escolha sua jogada";
   var _listaJogadas = ["pedra", "papel", "tesoura"];
+  var _isImpossibleMode = false;
 
   void _opcaoSelecionada(String escolha) {//ou String
     var numeroAleatorio = Random().nextInt(3);
@@ -26,13 +27,24 @@ class _JogoState extends State<Jogo> {
     if (_listaJogadas[numeroAleatorio] == escolha) {
       _mensagem = "Empatamos ;-)";
     } else if ((escolha == "pedra" && numeroAleatorio == _listaJogadas.indexOf("tesoura")) ||
-               (escolha == "papel" && numeroAleatorio < _listaJogadas.indexOf("pedra")) ||
+               (escolha == "papel" && numeroAleatorio == _listaJogadas.indexOf("pedra")) ||
                (escolha == "tesoura" && numeroAleatorio == _listaJogadas.indexOf("papel"))
     ) {
       _mensagem = "Parabéns! Você ganhou! Melhor de três?";
     } else {
       _mensagem = "Hahaha! Você perdeu! Tudo normal por aqui!";
     }
+  }
+
+  void _opcaoImpossible(String escolha) {
+    var indexChosen = _listaJogadas.indexOf(escolha) == 2 ? -1 : _listaJogadas.indexOf(escolha);
+    var img = "images/${_listaJogadas[indexChosen+1]}.png";
+
+    setState(() {
+      _imageApp = AssetImage(img);
+    });
+    
+    _mensagem = "Hahaha! Você perdeu! Tudo normal por aqui!";
   }
 
   @override
@@ -71,27 +83,45 @@ class _JogoState extends State<Jogo> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                    onTap: () => _opcaoSelecionada('pedra'),
+                    onTap: () => {_isImpossibleMode ? _opcaoImpossible("pedra") : _opcaoSelecionada('pedra')},
                     child: Image.asset(
                       "images/pedra.png",
                       height: 100,
                     ),
                   ),
                   GestureDetector(
-                    onTap: () => _opcaoSelecionada('papel'),
+                    onTap: () => {_isImpossibleMode ? _opcaoImpossible("papel") : _opcaoSelecionada('papel')},
                     child: Image.asset(
                       "images/papel.png",
                       height: 100,
                     ),
                   ),
                   GestureDetector(
-                    onTap: () => _opcaoSelecionada('tesoura'),
+                    onTap: () => {_isImpossibleMode ? _opcaoImpossible("tesoura") : _opcaoSelecionada('tesoura')},
                     child: Image.asset(
                       "images/tesoura.png",
                       height: 100,
                     ),
                   ),
                 ],
+              ),
+              Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Checkbox(
+                      value: _isImpossibleMode,
+                      onChanged: (checked) => {
+                        setState(() => {
+                          _isImpossibleMode = checked!
+                        }),
+                        print(_isImpossibleMode)
+                      },
+                    ),
+                    Text("Modo impossível!")
+                  ],
+                ),
               )
             ],
           ),
