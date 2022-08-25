@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:posto_de_gasolina/Pagina.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -89,6 +90,24 @@ class _MainState extends State<Main> {
                       ),
                     ),
                   ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        fixedSize: Size(220.0, 50.0),
+                      ),
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Pagina()));
+                      },
+                      child: Text(
+                        "Nova Tela",
+                        style: TextStyle(
+                          fontSize: 22
+                        ),
+                      ),
+                    ),
                 ),
                 Text(_mensagem)
               ],
