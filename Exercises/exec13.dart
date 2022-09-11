@@ -10,5 +10,5 @@ void main() {
 
   double kmPorHora = (kmAtual - kmAnterior) / litrosConsumidos;
 
-  print("Taxa de consumo: RS${kmPorHora}");
+  print("Taxa de consumo: ${kmPorHora} litros por km rodado.");
 }
