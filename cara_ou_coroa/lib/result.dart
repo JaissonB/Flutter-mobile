@@ -2,19 +2,22 @@ import 'dart:html';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:cara_ou_coroa/home.dart';
 
 //stateLess não tem alteração na view, página statica
 //stateFull altera dados
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+class Result extends StatefulWidget {
+  late int valor;
+  Result(this.valor);
 
   @override
-  State<Home> createState() => _HomeState();
+  State<Result> createState() => _ResultState();
 }
 
-class _HomeState extends State<Home> {
-
+class _ResultState extends State<Result> {
+  final _imgOptions = ["images/moeda_cara.png", "images/moeda_coroa.png"];
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,8 +32,9 @@ class _HomeState extends State<Home> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Image.asset(_imgOptions[widget.valor]),
               GestureDetector(
-                onTap: () {},
+                onTap: () {Navigator.pop(context);},
                 child: Image.asset(
                   "images/botao_voltar.png",
                 ),

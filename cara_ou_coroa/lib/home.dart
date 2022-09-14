@@ -2,6 +2,7 @@ import 'dart:html';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:cara_ou_coroa/result.dart';
 
 //stateLess não tem alteração na view, página statica
 //stateFull altera dados
@@ -14,6 +15,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int _drawNumber() {
+    return Random().nextInt(2);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +35,7 @@ class _HomeState extends State<Home> {
             children: [
               Image.asset("images/logoC.png"),
               GestureDetector(
-                onTap: () {print("object");},
+                onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Result(_drawNumber())));},
                 child: Image.asset(
                   "images/botao_jogar.png",
                 ),
