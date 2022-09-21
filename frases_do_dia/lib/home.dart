@@ -66,7 +66,6 @@ class _HomeState extends State<Home> {
                   primary: Colors.green,
                   elevation: 0,
                   fixedSize: Size(220.0, 80.0),
-                  
                 ),
                 onPressed: _gerarFrase,
                 child: Text(
